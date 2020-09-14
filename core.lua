@@ -283,10 +283,10 @@ DoMyBidding.dmbOptionsTable = {
       order = 910,
       set = function(info,val)
 		DoMyBidding.db.profile.handle_bid = val 
-		if Prio3.db.profile.handle_bid then
-			Prio3:RegisterChatCommand('bid', 'ChatCommandDMB');
+		if DoMyBidding.db.profile.handle_bid then
+			DoMyBidding:RegisterChatCommand('bid', 'ChatCommandDMB');
 		else
-			Prio3:UnregisterChatCommand('bid');
+			DoMyBidding:UnregisterChatCommand('bid');
 		end
 
 	  end,
@@ -300,10 +300,10 @@ DoMyBidding.dmbOptionsTable = {
       order = 920,
       set = function(info,val)
 		DoMyBidding.db.profile.handle_auction = val 
-		if Prio3.db.profile.handle_auction then
-			Prio3:RegisterChatCommand('auction', 'ChatCommandDMB');
+		if DoMyBidding.db.profile.handle_auction then
+			DoMyBidding:RegisterChatCommand('auction', 'ChatCommandDMB');
 		else
-			Prio3:UnregisterChatCommand('auction');
+			DoMyBidding:UnregisterChatCommand('auction');
 		end
 
 	  end,
