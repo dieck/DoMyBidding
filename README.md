@@ -19,7 +19,6 @@ presents a lot of config option on accepting bids and output to both raid and us
 - can notify players that try to roll instead of bid
 
 
-
 /dmb rules
 outputs rules to party/raid
 
@@ -28,3 +27,14 @@ outputs rules to party/raid
 /dmb [itemLink] starts bidding
 
 
+## Listing
+
+Show current bids, if bidding has ended, show the last one
+
+/dmb bids
+/dmb current
+/dmb list  
+
+Shows the last bidding
+
+/dmb last

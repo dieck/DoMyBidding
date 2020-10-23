@@ -8,10 +8,14 @@
 
 embeds.xml
 
+domybidding.lua
+
+output-enUS.lua
 locale-enUS.lua
+
+output-deDE.lua
 locale-deDE.lua
 
-domybidding.lua
 
 bids.lua
 core.lua

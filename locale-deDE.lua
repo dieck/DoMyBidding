@@ -2,35 +2,85 @@ local L = LibStub("AceLocale-3.0"):NewLocale("DoMyBidding", "deDE", false)
 
 if L then
 
--- core
--- ----
+-- configs
+
+L["Timings"] = "Zeiten"
 
 L["Bid duration"] = "Dauer für Gebote"
 L["Initial time for a bid"] = "Erste Zeit für Gebote"
 L["Bids prolong"] = "Verlängern"
 L["If a new bid came in, prolong time to end if necessary"] = "Zeit um welche die Gebotsphase verlängert wird, wenn Gebote eingehen"
+
+L["Accept bids"] = "Akzeptierte Gebote"
+
+L["Raid"] = "Raid"
+L["Accept bidding in party/raidchat"] = "Akzeptiere Gebote im Raid-/Gruppenchat"
+L["Whisper"] = "Geflüstert"
+L["Accept bidding by whisper"] = "Akzeptiere geflüsterte Gebote"
+L["Only once"] = "Nur einmal"
+L["Accept only first bid (disables revocation)"] = "Akzeptiert nur das erste Gebot (deaktiviert -Rücknahme-)"
+L["Same amount"] = "Gleiches Gebot"
+L["Accept same amount bids (if disabled: earliest bid wins)"] = "Akzeptiert gleiche Gebote (sonst: früheres Gebot gewinnt)"
+L["Revoke bid"] = "Rücknahme"
+L["Allows users to revoke bid (disables only once)"] = "Erlaubt die Rücknahme von Geboten (deaktiviert -Nur einmal-)"
+
+
+L["Raid announces"] = "Ausgaben an den Raid"
+
+L["Countdown"] = "Countdown"
+L["Give Countdown in raid/party chat"] = "Gibt einen Countdown im Raid-/Gruppenchat aus"
+L["New max"] = "Neues Höchstgebot"
+L["Announce new max bids to raidchat"] = "Gibt neue Höchstgebote im Raid-/Gruppenchat aus"
+L["List to Raid"] = "Liste an Raid"
+L["Outputs full list to raid/party on finish (disables output to user)"] = "Gibt eine volle Liste der Gebote an den Raid-/Gruppenchat (deaktiviert -Liste an dich-)"
+
+
+L["Whisper announces"] = "Geflüsterte Ausgaben"
+
+L["Received"] = "Erhalten"
+L["Whisper to player if bid was received"] = "Spieler anflüstern wenn sein Gebot eingegangen ist"
+L["Accepted"] = "Akzeptiert"
+L["Whisper to player if bid was accepted (disables received whisper)"] = "Spieler anflüstern wenn sein Gebot eingegangen ist und akzeptiert wurde (deaktiviert -Erhalten-)"
+L["Not accepted"] = "Abgelehnt"
+L["Whisper to player if bid was not accepted (disables received whisper)"] = "Spieler anflüstern wenn sein Gebot abgelehnt wurde (disables -Erhalten-)"
+L["Too low"] = "Zu niedrig"
+L["Whisper to player if bid was lower than current max"] = "Spieler anflüster wenn sein Gebot unter dem aktuellen Höchstgebot liegt"
+L["Outbid"] = "Überboten"
+L["Whisper to player if another higher bid was received"] = "Spieler anflüstern wenn ein anderer Spieler ihn überboten hat"
+L["No rolls"] = "Kein würfeln"
+L["Tells the player to bid if he rolls during bidding"] = "Den Spieler darauf hinweisen, dass er bieten und nicht würfeln muss"
+
+L["Presets"] = "Voreinstellungen"
+
+L["Open Bidding"] = "Offene Aktion"
+L["Open bidding in raid chat, with max & low announces, same bidding allowed, bid again allowed"] = "Offenes bieten im Raidchat, Ansagen für Höchstgebote und zu niedrige Gebote; gleiche Gebote erlaubt, Erhöhungen erlaubt."
+L["Silent Bidding"] = "Stilles Bieten"
+L["Silent bidding by whisper, no max / low announces, first bid wins"] = "Stilles Bieten per Flüstern, keine Ansagen zu Höchstgeboten oder zu niedrigen Geboten, nur einmal bieten, erstes Höchstgebot gewinnt"
+
+L["Miscellaneous"] = "Verschiedenes"
+
+L["Enable additional usage of /bid"] = "Aktiviere zusätzlich Nutzung von /bid"
+L["Enable additional usage of /auction"] = "Aktiviere zusätzlich Nutzung von /auction"
+L["List to you"] = "Liste an dich"
+L["Outputs full list to you on finish (disables output to raid/party)"] = "Gibt eine volle Liste der Gebote dich aus (deaktiviert -Liste an Raid-)"
+
+L["Language"] = "Sprache"
+L["Language for outputs"] = "Ausgabesprache"
+
+
 L["Debug"] = "Debug"
+
+-- notifications
+
 L["Usage: |cFF00CCFF/dmb |cFFA335EE[Sword of a Thousand Truths]|r to start a bid"] = "Benutzung: |cFF00CCFF/dmb |cFFA335EE[Schwert der 1000 Wahrheiten]|r startet die Gebote"
 L["Usage: |cFF00CCFF/dmb config|r to open the configuration window"] = "Benutzung: |cFF00CCFF/dmb config|r öffnet das Konfigurationsmenü"
 
--- bids
--- ----
-
 L["Bidding for itemLink still running, cannot start new bidding now!"] = function(itemLink) return "Gebote für " .. itemLink .. " laufen noch, es kann noch keine neue Versteigerung beginnen!" end
-L["Start Bidding now: itemLink"] = function(itemLink) return "Jetzt bieten für " .. itemLink end
 L["You don't have assist, so I cannot put out Raid Warnings"] = "Du hast kein Assist, kann keine Raid-Warnung senden"
 L["You are not in a party or raid. So here we go: Have fun bidding for itemLink against yourself."] = function(itemLink) return "Du bist nicht in einer Gruppe oder Raid. Also dann viel Spaß, du kannst jetzt gegen dich selbst auf " .. itemLink .. " bieten." end
-L["Current highest bid for itemLink is maxbid"] = function(itemLink, maxbid) return "Aktuell höchstes Gebot für " .. itemLink .. " ist " .. maxbid end
-L["Bidding ended!"] = "Bieten beendet!"
-L["No one bid on itemLink"] = function (itemLink) return "Niemand hat für " .. itemLink .. " geboten" end
-L["Congratulations! maxplayers won itemLink for maxbid"] = function(maxplayers,itemLink,maxbid) return "Glückwunsch! " .. table.concat(maxplayers, ", ") .. " hat " .. itemLink .. " gewonnen für " ..  maxbid end
-L["Tie! maxplayers please roll on itemLink for maxbid"] = function (maxplayers,itemLink,maxbid) return "Gleichstand! " .. table.concat(maxplayers, ", ") .. " rollen jetzt auf " .. itemLink .. " für " ..  maxbid end
-L["Bidding ends in sec"] = function (s) return "Gebote enden in " .. s end
 
-L["You passed on itemLink"] = function (itemLink) return "Du hast auf " .. itemLink .. " gepasst" end
-L["Received your bid bid for itemLink"] = function (bid, itemLink) return "Dein Gebot " .. bid .. " für " .. itemLink .. " ist angekommen." end -- Denk dran, du kannst jederzeit passen mit -" end
-L["Accepted your bid bid for itemLink"] = function (bid, itemLink) return "Dein Gebot " .. bid .. " für " .. itemLink .. " wurde akzeptiert." end -- Denk dran, du kannst jederzeit passen mit -" end
-L["You already bid bid for itemLink"] = function (bid, itemLink) return "Du hast bereits " .. bid .. " geboten für " .. itemLink .. "." end -- Denk dran, du kannst jederzeit passen mit -" end
-L["LOW BID! Your bid of bid for itemLink is NOT current max bid!"] = function (bid, itemLink) return "NIEDRIGES GEBOT! Dein Gebot " .. bid .. " für " .. itemLink .. " ist NICHT das höchste Gebot jetzt!" end
+
+-- load default outputs 
+for k,v in pairs(DoMyBidding.outputLocales["deDE"]) do L[k] = v end
 
 end -- if L then

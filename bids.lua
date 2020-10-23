@@ -53,22 +53,38 @@ function pairsByKeys (t, f)
      return iter
 end
 
-function DoMyBidding:OutputFullList()
+function DoMyBidding:OutputFullList(lst)
 	o = nil
 	if DoMyBidding.db.profile.outputfull_raid then o = function(txt) DoMyBidding:Output(txt) end end
 	if DoMyBidding.db.profile.outputfull_user then o = function(txt) DoMyBidding:Print(txt) end end
 	if o == nil then return nil end
 
+	if lst == nil then 
+		lst = DoMyBidding.db.profile.currentbidding.bids
+	end
+
+	-- still nil? then there are no current bids. Use last bids
+	if lst == nil then
+		lst = DoMyBidding.db.profile.lastbidding.bids
+	end
+
+	-- really? still nil? ok, so there are no biddings recorded at all. You must be new here.
+	if lst == nil then
+		-- nothing to output
+		return nil
+	end
+
+
 	-- transpose table
 	bidsbybids = {}
-	for player,bid in pairs(DoMyBidding.db.profile.currentbidding.bids) do
+	for player,bid in pairs(lst) do
 		if bidsbybids[bid] == nil then bidsbybids[bid] = {} end
 		table.insert(bidsbybids[bid], player)
 	end
 
 	for bid,users in pairsByKeys(bidsbybids) do
 		players = table.concat(users, ", ")
-		o("Bid " .. bid .. " from " .. players)
+		o(L["Bid bid from players"](bid, players))
 	end
 end
 
@@ -182,7 +198,7 @@ function DoMyBidding:existsBid(compareBid)
 	return false
 end
 
--- different times of incoming messages
+-- different kinds of incoming messages
 function DoMyBidding:CHAT_MSG_WHISPER(event, text, sender)		if DoMyBidding.db.profile.acceptwhisper then	DoMyBidding:IncomingChat(text, sender) end end
 function DoMyBidding:CHAT_MSG_PARTY(event, text, sender)		if DoMyBidding.db.profile.acceptraid then 		DoMyBidding:IncomingChat(text, sender) end end
 function DoMyBidding:CHAT_MSG_PARTY_LEADER(event, text, sender)	if DoMyBidding.db.profile.acceptraid then 		DoMyBidding:IncomingChat(text, sender) end end
@@ -263,7 +279,7 @@ function DoMyBidding:IncomingChat(text, sender)
 				
 				DoMyBidding:Debug("C - Someone else has that bid and we do not accept same bids")
 				if DoMyBidding.db.profile.whispernotaccepted then
-					SendChatMessage("Can not accept your bid " .. bid .. " for " .. DoMyBidding.db.profile.currentbidding.itemLink, "WHISPER", nil, sender)
+					SendChatMessage(L["Can not accept your bid bid for itemLink"](bid, DoMyBidding.db.profile.currentbidding.itemLink), "WHISPER", nil, sender)
 				end
 			
 			else
@@ -293,7 +309,7 @@ function DoMyBidding:IncomingChat(text, sender)
 		
 			DoMyBidding:Debug("G - Someone else has that bid and we do not accept same bids")
 			if DoMyBidding.db.profile.whispernotaccepted then
-				SendChatMessage("Can not accept your bid " .. bid .. " for " .. DoMyBidding.db.profile.currentbidding.itemLink, "WHISPER", nil, sender)
+				SendChatMessage(L["Can not accept your bid bid for itemLink"](bid, DoMyBidding.db.profile.currentbidding.itemLink), "WHISPER", nil, sender)
 			end
 
 		else
@@ -318,27 +334,27 @@ function DoMyBidding:OutputRules()
 
 	r = {}
 	
-	table.insert(r, "Bidding runs " .. DoMyBidding.db.profile.bidduration .. "sec")
-	if DoMyBidding.db.profile.bidprolong > 0 then table.insert(r, "Bids extend time by " .. DoMyBidding.db.profile.bidprolong .. "sec") end
+	table.insert(r, L["Bidding runs s sec"](DoMyBidding.db.profile.bidduration))
+	if DoMyBidding.db.profile.bidprolong > 0 then table.insert(r, L["Bids extend time by s sec"](DoMyBidding.db.profile.bidprolong)) end
 	
-	table.insert(r, "Bids accepted " .. DoMyBidding:GetRulesWhere())
+	table.insert(r, L["Bids accepted"] .. " " .. DoMyBidding:GetRulesWhere())
 	
-	if DoMyBidding.db.profile.acceptonce 	then table.insert(r, "Single bid per user (no increase)")	else table.insert(r, "Full auction, increases allowed")	end
-	if DoMyBidding.db.profile.acceptsame 	then table.insert(r, "Same bids allowed") 					else table.insert(r, "No same bids allowed (first bid counts)") end
-	if DoMyBidding.db.profile.acceptrevoke 	then table.insert(r, "Revoke by - possible") 				else table.insert(r, "No revocation of bids") end
+	if DoMyBidding.db.profile.acceptonce 	then table.insert(r, L["Single bid per user (no increase)"])	else table.insert(r, L["Full auction, increases allowed"])	end
+	if DoMyBidding.db.profile.acceptsame 	then table.insert(r, L["Same bids allowed"]) 					else table.insert(r, L["No same bids allowed (first bid counts)"]) end
+	if DoMyBidding.db.profile.acceptrevoke 	then table.insert(r, L["Revoke by - possible"]) 				else table.insert(r, L["No revocation of bids"]) end
 
-	DoMyBidding:Output("Rules: " .. table.concat(r, " / "))
+	DoMyBidding:Output(L["Rules:"] .. " " .. table.concat(r, " / "))
 end
 
 function DoMyBidding:GetRulesWhere()
 	if DoMyBidding.db.profile.acceptraid and DoMyBidding.db.profile.acceptwhisper then
-		return "in Chat or by Whisper to " .. UnitName("player") 
+		return L["in Chat or by Whisper to p"](UnitName("player"))
 	else 
 		if DoMyBidding.db.profile.acceptraid then 
-			return "only in Chat"
+			return L["only in Chat"]
 		end
 		if DoMyBidding.db.profile.acceptwhisper then 
-			return "only by Whisper to " .. UnitName("player")
+			return L["only by Whisper to p"](UnitName("player"))
 		end
 	end	
 end
@@ -351,7 +367,7 @@ function DoMyBidding:CHAT_MSG_SYSTEM (event, text )
 		local sender = text:match(pattern)
 		
 		if sender and not (DoMyBidding.db.profile.currentbidding.itemLink == nil) then
-			SendChatMessage("We are bidding, not rolling. Please state your bid " .. DoMyBidding:GetRulesWhere(), "WHISPER", nil, sender)
+			SendChatMessage(L["We are bidding, not rolling. Please state your bid where"](DoMyBidding:GetRulesWhere()), "WHISPER", nil, sender)
 		end
 	end
 end

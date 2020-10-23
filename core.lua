@@ -22,13 +22,14 @@ local defaults = {
 	whispernoroll = true,
 	outputfull_raid = false,
 	outputfull_user = true,
+	outputlanguage = GetLocale(),
   }
 }
 
 DoMyBidding.dmbOptionsTable = {
   type = "group",
   args = {
-	txttime = { type = "header", name = "Timings", order = 100},
+	txttime = { type = "header", name = L["Timings"], order = 100},
 	
 	duration = {
 		name = L["Bid duration"],
@@ -56,11 +57,11 @@ DoMyBidding.dmbOptionsTable = {
 	},
 	newline121 = { name="", type="description", order=121 },
 
-	txtaccepts = { type = "header", name = "Accept bids", order = 200 },
+	txtaccepts = { type = "header", name = L["Accept bids"], order = 200 },
 	
 	bidraid = {
-		name = "Raid",
-		desc = "Accept bidding in party/raidchat",
+		name = L["Raid"],
+		desc = L["Accept bidding in party/raidchat"],
 		type = "toggle",
 		order = 210,
 		set = function(info,val)
@@ -72,8 +73,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline211 = { name="", type="description", order=211 },
 
 	bidwhisper = {
-		name = "Whisper",
-		desc = "Accept bidding by whisper",
+		name = L["Whisper"],
+		desc = L["Accept bidding by whisper"],
 		type = "toggle",
 		order = 220,
 		set = function(info,val)
@@ -85,8 +86,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline221 = { name="", type="description", order=221 },
 
 	bidagain = {
-		name = "Only once",
-		desc = "Accept only first bid (disables revocation)",
+		name = L["Only once"],
+		desc = L["Accept only first bid (disables revocation)"],
 		type = "toggle",
 		order = 230,
 		set = function(info,val) 
@@ -98,8 +99,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline231 = { name="", type="description", order=231 },
 
 	bidsame = {
-		name = "Same amount",
-		desc = "Accept same amount bids (if disabled: earliest bid wins)",
+		name = L["Same amount"],
+		desc = L["Accept same amount bids (if disabled: earliest bid wins)"],
 		type = "toggle",
 		order = 240,
 		set = function(info,val) DoMyBidding.db.profile.acceptsame = val end,
@@ -108,8 +109,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline241 = { name="", type="description", order=241 },
 
 	revoke = {
-		name = "Revoke bid",
-		desc = "Allows users to revoke bid (disables only once)",
+		name = L["Revoke bid"],
+		desc = L["Allows users to revoke bid (disables only once)"],
 		type = "toggle",
 		order = 250,
 		set = function(info,val) 
@@ -120,11 +121,11 @@ DoMyBidding.dmbOptionsTable = {
 	},
 	newline251 = { name="", type="description", order=251 },
 
-	txtoutput = { type = "header", name = "Raid announces", order = 300 },
+	txtoutput = { type = "header", name = L["Raid announces"], order = 300 },
 	
 	countdown = {
-		name = "Countdown",
-		desc = "Give Countdown in raid/party chat",
+		name = L["Countdown"],
+		desc = L["Give Countdown in raid/party chat"],
 		type = "toggle",
 		order = 310,
 		set = function(info,val) DoMyBidding.db.profile.showcountdown = val end,
@@ -133,8 +134,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline311 = { name="", type="description", order=311 },
 	
 	newmax = {
-		name = "New max",
-		desc = "Announce new max bids to raidchat",
+		name = L["New max"],
+		desc = L["Announce new max bids to raidchat"],
 		type = "toggle",
 		order = 320,
 		set = function(info,val) DoMyBidding.db.profile.shownewmax = val end,
@@ -143,8 +144,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline321 = { name="", type="description", order=321 },
 
 	outputfullraid = {
-		name = "List to Raid",
-		desc = "Outputs full list to raid/party on finish (disables output to user)",
+		name = L["List to Raid"],
+		desc = L["Outputs full list to raid/party on finish (disables output to user)"],
 		type = "toggle",
 		order = 330,
 		set = function(info,val)
@@ -158,8 +159,8 @@ DoMyBidding.dmbOptionsTable = {
 	txtwhispers = { type = "header", name = "Whisper announces", order = 400 },
 
 	received = {
-		name = "Received",
-		desc = "Whisper to player if bid was received",
+		name = L["Received"],
+		desc = L["Whisper to player if bid was received"],
 		type = "toggle",
 		order = 410,
 		set = function(info,val) DoMyBidding.db.profile.whisperreceived = val end,
@@ -168,8 +169,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline411 = { name="", type="description", order=411 },
 
 	accepted = {
-		name = "Accepted",
-		desc = "Whisper to player if bid was accepted (disables received whisper)",
+		name = L["Accepted"],
+		desc = L["Whisper to player if bid was accepted (disables received whisper)"],
 		type = "toggle",
 		order = 420,
 		set = function(info,val) 
@@ -181,8 +182,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline421 = { name="", type="description", order=421 },
 	
 	notaccepted = {
-		name = "Not accepted",
-		desc = "Whisper to player if bid was not accepted (disables received whisper)",
+		name = L["Not accepted"],
+		desc = L["Whisper to player if bid was not accepted (disables received whisper)"],
 		type = "toggle",
 		order = 430,
 		set = function(info,val)
@@ -193,8 +194,8 @@ DoMyBidding.dmbOptionsTable = {
 		get = function(info) return DoMyBidding.db.profile.whispernotaccepted end,
 	},
 	toolow = {
-		name = "Too low",
-		desc = "Whisper to player if bid was lower than current max",
+		name = L["Too low"],
+		desc = L["Whisper to player if bid was lower than current max"],
 		type = "toggle",
 		order = 435,
 		set = function(info,val) 
@@ -207,8 +208,8 @@ DoMyBidding.dmbOptionsTable = {
 
 
 	outbid = {
-		name = "Outbid",
-		desc = "Whisper to player if another higher bid was received",
+		name = L["Outbid"],
+		desc = L["Whisper to player if another higher bid was received"],
 		type = "toggle",
 		order = 440,
 		set = function(info,val) DoMyBidding.db.profile.whisperoutbid	= val end,
@@ -217,8 +218,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline441 = { name="", type="description", order=441 },
 
 	norolls = {
-		name = "No rolls",
-		desc = "Tells the player to bid if he rolls during bidding",
+		name = L["No rolls"],
+		desc = L["Tells the player to bid if he rolls during bidding"],
 		type = "toggle",
 		order = 450,
 		set = function(info,val) DoMyBidding.db.profile.whispernoroll = val end,
@@ -226,11 +227,11 @@ DoMyBidding.dmbOptionsTable = {
 	},
 	newline451 = { name="", type="description", order=451 },
 
-	txtpresets = { type = "header", name = "Presets", order = 800 },
+	txtpresets = { type = "header", name = L["Presets"], order = 800 },
 	
 	openbiddings = {
-		name = "Open Bidding",
-		desc = "Open bidding in raid chat, with max & low announces, same bidding allowed, bid again allowed",
+		name = L["Open Bidding"],
+		desc = L["Open bidding in raid chat, with max & low announces, same bidding allowed, bid again allowed"],
 		type = "execute",
 		order = 810,
 		func = function() 
@@ -252,8 +253,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline811 = { name="", type="description", order=811 },
 
 	silentbiddings = {
-		name = "Silent Bidding",
-		desc = "Silent bidding by whisper, no max / low announces, first bid wins",
+		name = L["Silent Bidding"],
+		desc = L["Silent bidding by whisper, no max / low announces, first bid wins"],
 		type = "execute",
 		order = 820,
 		func = function() 
@@ -275,10 +276,11 @@ DoMyBidding.dmbOptionsTable = {
 	},
 	newline821 = { name="", type="description", order=821 },
 
-	txtdebug = { type = "header", name = "Miscellaneous", order = 900 },
+	txtdebug = { type = "header", name = L["Miscellaneous"], order = 900 },
 	
     bidhandler = {
       name = "/bid",
+	  desc = L["Enable additional usage of /bid"],
       type = "toggle",
       order = 910,
       set = function(info,val)
@@ -296,6 +298,7 @@ DoMyBidding.dmbOptionsTable = {
 
     auctionhandler = {
       name = "/auction",
+	  desc = L["Enable additional usage of /auction"],
       type = "toggle",
       order = 920,
       set = function(info,val)
@@ -312,8 +315,8 @@ DoMyBidding.dmbOptionsTable = {
 	newline921 = { name="", type="description", order=921 },
 
 	outputfulluser = {
-		name = "List to User",
-		desc = "Outputs full list to user on finish (disables output to raid/party)",
+		name = L["List to you"],
+		desc = L["Outputs full list to you on finish (disables output to raid/party)"],
 		type = "toggle",
 		order = 930,
 		set = function(info,val)
@@ -324,6 +327,24 @@ DoMyBidding.dmbOptionsTable = {
 	},
 	newline931 = { name="", type="description", order=931 },
 
+
+	outputlanguage = {
+		name = L["Language"],
+		desc = L["Language for outputs"],
+		type = "select",
+		order = 940,
+		values = function()
+			r = {}
+			for k,v in pairs(DoMyBidding.outputLocales) do r[k] = k end
+			return r
+		end,
+		set = function(info,val)
+			DoMyBidding.db.profile.outputlanguage = val 
+			for k,v in pairs(DoMyBidding.outputLocales[val]) do L[k] = v end
+		end,
+		get = function(info) return DoMyBidding.db.profile.outputlanguage end,
+	},
+	newline941 = { name="", type="description", order=941 },
 
     debugging = {
       name = L["Debug"],
@@ -368,6 +389,12 @@ function DoMyBidding:OnInitialize()
   -- resetting possible old rolls
   self.db.profile.currentbidding = {}
   
+
+  -- change default output language if configured
+  if DoMyBidding.outputLocales[DoMyBidding.db.profile.outputlanguage] ~= nil then
+	for k,v in pairs(DoMyBidding.outputLocales[DoMyBidding.db.profile.outputlanguage]) do L[k] = v end
+  end
+  
 end
 
 function DoMyBidding:OnEnable()
@@ -394,6 +421,16 @@ function DoMyBidding:ChatCommandDMB(inc)
 
 	if strlower(inc) == "rules" then
 		DoMyBidding:OutputRules()
+		return nil
+	end
+
+	if strlower(inc) == "current" or strlower(inc) == "bids" or strlower(inc) == "list" then
+		DoMyBidding:OutputFullList(DoMyBidding.db.profile.currentbidding.bids)
+		return nil
+	end
+
+	if strlower(inc) == "last" then
+		DoMyBidding:OutputFullList(DoMyBidding.db.profile.lastbidding.bids)
 		return nil
 	end
 
