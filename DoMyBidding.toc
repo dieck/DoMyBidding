@@ -1,8 +1,8 @@
-## Interface: 11305
+## Interface: 11307
 ## Title: DoMyBidding
 ## Notes: Addon to allow easy bidding rolls
 ## Author: dieck
-## Version: alpha1
+## Version: alpha2
 ## SavedVariables: DoMyBiddingDB
 
 
